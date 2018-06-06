@@ -1,0 +1,27 @@
+group 'com.github.eberhardtj'
+version '0.3.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.metafacture:metafacture-framework:5.0.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.5.5'
+    testImplementation 'org.metafacture:metafacture-io:5.0.0'
+}
+
+task fatJar(type: Jar) {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    archiveName = archivesBaseName.replace('-extension', '') + '-' + version + '-plugin' + '.jar'
+    with jar
+}
