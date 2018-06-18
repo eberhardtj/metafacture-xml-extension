@@ -5,7 +5,7 @@ A plugin for link:https://github.com/metafacture/metafacture-core[metafacture] t
 
 == Build
 
-image::https://jitpack.io/v/eberhardtj/metafacture-xml-extension.svg[link="https://jitpack.io/#eberhardtj/metafacture-xml-extension"]
+image::https://jitpack.io/v/eberhardtj/metafacture-xml-plugin.svg[link="https://jitpack.io/#eberhardtj/metafacture-xml-plugin"]
 
 ```
 gradlew test fatJar
