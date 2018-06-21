@@ -24,10 +24,6 @@ Place the build JAR inside the `plugins` directory of your `metafacture-core` di
 |XmlReceiver
 |XmlReceiver
 
-|split-xml
-|Reader
-|String
-
 |stream-to-sax
 |StreamReceiver
 |XmlReceiver
@@ -53,28 +49,6 @@ Flux:
 ```
 > | decode-xml | split-sax | ...
 ```
-
-
-=== split-xml
-
-==== Description
-
-Yields a new document for each child element underneath the document root.
-
-==== Syntax
-
-```
-split-xml
-```
-
-==== Example
-
-Flux:
-
-```
-> | as-lines | split-xml | decode-xml | ...
-```
-
 
 
 === stream-to-sax
