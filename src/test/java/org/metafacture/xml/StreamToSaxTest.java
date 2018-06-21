@@ -19,7 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.metafacture.framework.XmlReceiver;
-import org.metafacture.xml.mockito.SingleAttributeMatcher;
+import org.metafacture.xml.mockito.AttributeMatcher;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -49,39 +49,39 @@ public class StreamToSaxTest
     }
 
     @Test
-    public void convertLiteralToSax() throws Exception
+    public void convertLiteralToXmlEvent() throws Exception
     {
-        handler.literal("name-1", "value-1");
+        handler.literal("literal-name", "literal-value");
 
-        verify(receiver).startElement(eq(""), eq("literal"), eq("literal"),
-                argThat(SingleAttributeMatcher.hasSingleAttribute("", "name", "name", "CDATA", "name-1")));
+        verify(receiver).startElement(eq(""), eq("literal-name"), eq("literal-name"),
+                argThat(AttributeMatcher.hasNoAttributes()));
 
-        String value = "value-1";
+        String value = "literal-value";
         verify(receiver).characters(value.toCharArray(), 0, value.length());
 
-        verify(receiver).endElement("", "literal", "literal");
+        verify(receiver).endElement("", "literal-name", "literal-name");
     }
 
     @Test
     public void convertEntityToSax() throws Exception
     {
-        handler.startEntity("entity-1");
+        handler.startEntity("entity-name");
         handler.endEntity();
 
-        verify(receiver).startElement(eq(""), eq("entity"), eq("entity"),
-                argThat(SingleAttributeMatcher.hasSingleAttribute("", "name", "name", "CDATA", "entity-1")));
-        verify(receiver).endElement("", "entity", "entity");
+        verify(receiver).startElement(eq(""), eq("entity-name"), eq("entity-name"),
+                argThat(AttributeMatcher.hasNoAttributes()));
+        verify(receiver).endElement("", "entity-name", "entity-name");
     }
 
     @Test
     public void convertRecordToSax() throws Exception
     {
-        handler.startRecord("rec-1");
+        handler.startRecord("identifier");
         handler.endRecord();
 
         verify(receiver).startDocument();
         verify(receiver).startElement(eq(""), eq("record"), eq("record"),
-                argThat(SingleAttributeMatcher.hasSingleAttribute("", "id", "id", "ID", "rec-1")));
+                argThat(AttributeMatcher.hasSingleAttribute("", "id", "id", "ID", "identifier")));
         verify(receiver).endElement("", "record", "record");
         verify(receiver).endDocument();
     }

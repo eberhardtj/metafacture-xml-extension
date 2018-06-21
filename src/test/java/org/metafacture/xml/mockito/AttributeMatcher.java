@@ -18,8 +18,20 @@ package org.metafacture.xml.mockito;
 import org.mockito.ArgumentMatcher;
 import org.xml.sax.Attributes;
 
-public class SingleAttributeMatcher
+public class AttributeMatcher
 {
+    public static ArgumentMatcher<Attributes> hasNoAttributes()
+    {
+        return new ArgumentMatcher<Attributes>()
+        {
+            @Override
+            public boolean matches(Attributes argument)
+            {
+                return argument.getLength() == 0;
+            }
+        };
+    }
+
     public static ArgumentMatcher<Attributes> hasSingleAttribute(String uri, String localName,
                                                                  String qName,
                                                                  String type, String value)

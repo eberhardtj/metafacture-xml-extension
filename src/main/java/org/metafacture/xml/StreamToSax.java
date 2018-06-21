@@ -26,8 +26,11 @@ import org.metafacture.framework.helpers.DefaultStreamPipe;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+import java.util.Stack;
+
 /**
  * Encodes a stream into XML events.
+ * A shortcut for the combination of {@code SimpleXmlEncoder} and {@code DecodeXml}.
  */
 
 @In(StreamReceiver.class)
@@ -36,16 +39,22 @@ import org.xml.sax.helpers.AttributesImpl;
 @FluxCommand("stream-to-sax")
 public class StreamToSax extends DefaultStreamPipe<XmlReceiver>
 {
+    private Stack<String> currentEntityName;
+
+    public StreamToSax() {
+        this.currentEntityName = new Stack<String>();
+    }
+
     @Override
     public void startRecord(final String identifier)
     {
-        AttributesImpl attributes = new AttributesImpl();
-        attributes.addAttribute("", "id", "id", "ID", identifier);
+        AttributesImpl recordAttributes = new AttributesImpl();
+        recordAttributes.addAttribute("", "id", "id", "ID", identifier);
 
         try
         {
             getReceiver().startDocument();
-            getReceiver().startElement("", "record", "record", attributes);
+            getReceiver().startElement("", "record", "record", recordAttributes);
         }
         catch (SAXException e)
         {
@@ -69,11 +78,10 @@ public class StreamToSax extends DefaultStreamPipe<XmlReceiver>
     @Override
     public void startEntity(final String name)
     {
-        AttributesImpl attributes = new AttributesImpl();
-        attributes.addAttribute("", "name", "name", "CDATA", name);
+        currentEntityName.push(name);
         try
         {
-            getReceiver().startElement("", "entity", "entity", attributes);
+            getReceiver().startElement("", name, name, new AttributesImpl());
         }
         catch (SAXException e)
         {
@@ -83,9 +91,10 @@ public class StreamToSax extends DefaultStreamPipe<XmlReceiver>
 
     public @Override void endEntity()
     {
+        String name = currentEntityName.pop();
         try
         {
-            getReceiver().endElement("", "entity", "entity");
+            getReceiver().endElement("", name, name);
         }
         catch (SAXException e)
         {
@@ -96,14 +105,11 @@ public class StreamToSax extends DefaultStreamPipe<XmlReceiver>
     @Override
     public void literal(final String name, final String value)
     {
-        AttributesImpl attributes = new AttributesImpl();
-        attributes.addAttribute("", "name", "name", "CDATA", name);
-
         try
         {
-            getReceiver().startElement("", "literal", "literal", attributes);
+            getReceiver().startElement("", name, name, new AttributesImpl());
             getReceiver().characters(value.toCharArray(),0, value.length());
-            getReceiver().endElement("", "literal", "literal");
+            getReceiver().endElement("", name, name);
         }
         catch (SAXException e)
         {

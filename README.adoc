@@ -81,7 +81,9 @@ Flux:
 
 ==== Description
 
-Converts metafacture records into XML events.
+Converts metafacture records into XML events. Each record starts a new document.
+
+A shortcut for `... | stream-to-xml | decode-xml | ...` .
 
 ==== Syntax
 
@@ -96,16 +98,4 @@ Flux:
 
 ```
 ... | stream-to-sax | ...
-```
-
-
-A serialized record after the conversion into xml events would look like the following example:
-
-```xml
-<record id="ID">
-  <literal name="NAME">VALUE</literal>
-  <entity name="NAME">
-    <literal name="NAME">VALUE</literal>
-  </entity>
-</record>
 ```
