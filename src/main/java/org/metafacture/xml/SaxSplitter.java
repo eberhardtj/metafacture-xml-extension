@@ -27,7 +27,7 @@ import java.io.IOException;
 
 @In(XmlReceiver.class)
 @Out(XmlReceiver.class)
-@Description("Yields a new document for each child element underneath the document root.")
+@Description("Yields a new document for each child element underneath the document root. The yielded document contains the document root.")
 @FluxCommand("split-sax")
 public class SaxSplitter extends DefaultXmlPipe<XmlReceiver>
 {
