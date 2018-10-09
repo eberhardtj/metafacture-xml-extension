@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.metafacture.xml.mockito;
+package org.metafacture.contrib.xml.mockito;
 
 import org.mockito.ArgumentMatcher;
 import org.xml.sax.Attributes;

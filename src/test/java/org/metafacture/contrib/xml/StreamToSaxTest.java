@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.metafacture.xml;
+package org.metafacture.contrib.xml;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.metafacture.contrib.xml.mockito.AttributeMatcher;
 import org.metafacture.framework.XmlReceiver;
-import org.metafacture.xml.mockito.AttributeMatcher;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 

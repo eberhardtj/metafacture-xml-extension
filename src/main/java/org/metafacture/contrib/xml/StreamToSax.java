@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.metafacture.xml;
+package org.metafacture.contrib.xml;
 
 import org.metafacture.framework.FluxCommand;
 import org.metafacture.framework.MetafactureException;
